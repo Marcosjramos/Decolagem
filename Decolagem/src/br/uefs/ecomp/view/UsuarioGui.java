@@ -5,7 +5,7 @@
  */
 package br.uefs.ecomp.view;
 
-import br.uefs.ecomp.conexao.Controller;
+import br.uefs.ecomp.controller.Controller;
 import br.uefs.ecomp.model.Trecho;
 import java.awt.Font;
 import java.awt.event.ActionEvent;

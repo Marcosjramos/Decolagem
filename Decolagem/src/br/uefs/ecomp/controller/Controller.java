@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.uefs.ecomp.conexao;
+package br.uefs.ecomp.controller;
 
 import br.uefs.ecomp.model.Trecho;
 import br.uefs.ecomp.model.Trechos;
