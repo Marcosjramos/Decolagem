@@ -110,12 +110,18 @@ public class UsuarioGui {
        
          frame.getContentPane().add(listaTrechos);
          panel.add(listaTrechos);
+         
+            src.addElement("teste");       
+           listaTrechos.setModel(src);
+           src.addElement("teste-2");       
+           listaTrechos.setModel(src);
+//             listaReservas.setModel(src);;
+       
         
          trecho.addActionListener(btmH);
          trecho.setBounds(90, 550, 180, 40);
          frame.getContentPane().add(trecho);
          panel.add(trecho);
-        
         
          resevar.addActionListener(btmH);
          resevar.setBounds(350, 190, 190, 40);
@@ -206,9 +212,22 @@ public class UsuarioGui {
         
     }
      
-    public void exibir(){
+    public void exibir(int op){
         
-        listaTrechos.setModel(dst);
+        
+        if(op==1){
+            
+           src.addElement(listaTrechos.getName()); 
+           //src.addElement(listaTrechos.getSelectedValue());
+
+          listaReservas.setModel(src);
+          
+        }else if(op==0){
+        src.removeElement(listaReservas.getSelectedValue());
+     
+
+        listaReservas.setModel(src);
+    }
        
     }
     
@@ -275,8 +294,9 @@ public class UsuarioGui {
                    JOptionPane.showMessageDialog(null, "O SENHOR SO PODE REALIZAR UMA RESEVAR \n  APOS SELECINAR UM TRECHO! ");
                    
                  }else{
-                      src.addElement(listaTrechos.getSelectedValue());
-                     listaReservas.setModel(src);
+//                      src.addElement(listaTrechos.getSelectedValue());
+//                     listaReservas.setModel(src);
+                        exibir(1);
                      
                      control.Resevar();
                      
@@ -291,8 +311,9 @@ public class UsuarioGui {
                     
                 }else{
                     
-                   src.removeElement(listaReservas.getSelectedValue());
-                  listaReservas.setModel( src); 
+//                   src.removeElement(listaReservas.getSelectedValue());
+//                  listaReservas.setModel( src); 
+                       exibir(0);
                   
                  control.CancelarResevar();
                 }
