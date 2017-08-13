@@ -7,6 +7,8 @@ package br.uefs.ecomp.view;
 
 import java.awt.EventQueue;
 import java.net.SocketException;
+import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
 
 /**
  *
@@ -28,6 +30,15 @@ public class Start {
                 }
             }
         });
+        
+                try{
+            LocateRegistry.createRegistry(1099);
+           // Naming.rebind("//192.168.43.226/7777", servidorRMI);
+            System.out.println("Arranca servidor...");
+//            Naming.rebind("//192.168.1.118/1099", new ServidorMat());
+        } catch(Exception e) {
+            System.out.println("Ocorreu um problema de arranque no servidor.\n"+e.toString());
+        }
     }
 
     

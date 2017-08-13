@@ -50,7 +50,7 @@ public class Controller {
          
      }
      public void atulizar(){
-         
+         System.out.println("Atualizar");
      }
     
     

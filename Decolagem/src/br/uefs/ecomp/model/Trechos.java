@@ -93,18 +93,15 @@ public enum Trechos {
     }
 
     private static final Trechos[] trechos = values();
-
  
-    public static List retornarListaTrechos() {
+    public static List<Trecho> retornarListaTrechos() {
         Trecho trecho;
         List<Trecho> lista = new ArrayList<>();
-
         for (Trechos trechos : trechos) {
                 trecho = new Trecho(trechos.getOrigem(), trechos.getDestino(), trechos.getCompanhia(),
                                     trechos.getQuantAssentos());
                 lista.add(trecho);
         }
-       
         return lista;
     }
 

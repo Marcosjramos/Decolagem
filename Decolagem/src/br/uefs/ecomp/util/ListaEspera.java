@@ -27,9 +27,6 @@ public class ListaEspera{
         }
     }
 
- 
-  
-
     public ListaEspera(JLabel tela) {
          posic=00;
         this.tela= tela;
