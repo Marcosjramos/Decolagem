@@ -328,55 +328,90 @@ public class UsuarioGui {
                 if (src.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "O SENHOR SO PODE REALIZAR UMA COMPRAR \n  DEPOIS  QUE JA TEM REALIZADO UMA RESEVA! ");
                 } else {
+                    try {
+                        rmi.comprarTrecho(listaReservas.getSelectedValue());
+                        trechosReserva.remove(listaReservas.getSelectedValue());
+                        src.removeElement(listaReservas.getSelectedValue());
+                        listaReservas.setModel(src);
+                        control.CancelarResevar();
+                        trechosDisponiveis();
                     control.RealizarComparar();
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (UnknownHostException ex) {
+                        Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (JSONException ex) {
+                        Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                       
                 }
 
             } else if ("REALIZAR RESEVAR = >".equals(e.getActionCommand())) {
-               
+
                 if (mTrecho != null) {
-                    if(mTrecho.getSemaforo() == 0) {
-                    if (!verificarReserva(mTrecho)) {
-                        try {
-                            rmi.reservarTrecho(mTrecho);
-                        } catch (RemoteException ex) {
-                            Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                    if (mTrecho.getSemaforo() == 0) {
+                        if (!verificarReserva(mTrecho)) {
+                            try {
+                                rmi.reservarTrecho(mTrecho);
+                            } catch (RemoteException ex) {
+                                Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            // listaReservas.add(mTrecho);
+                            src.addElement(mTrecho);
+                            listaReservas.setModel(src);
+                            trechosReserva.add(mTrecho);
+                        } else {
+                            System.out.println("Segunda verificação");
                         }
-                        // listaReservas.add(mTrecho);
-                        src.addElement(mTrecho);
-                        listaReservas.setModel(src);
-                        trechosReserva.add(mTrecho);
-                    } else {
-                        System.out.println("Segunda verificação");
-                    }
                     } else {
                         System.out.println(mTrecho.getSemaforo());
                     }
                 }
+                try {
+                    trechosDisponiveis();
 
-                /*if (src.isEmpty()) {
+                    /*if (src.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "O SENHOR SO PODE REALIZAR UMA RESEVAR \n  APOS SELECINAR UM TRECHO! ");
-                } else {
+                    } else {
                     System.out.println("Teste");
                     src.addElement(listaTrechos.getSelectedValue());
                     listaReservas.setModel(src);
                     control.Resevar();
-                }*/
+                    }*/
+                } catch (UnknownHostException ex) {
+                    Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (JSONException ex) {
+                    Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else if ("< = CANCELAR RESEVAR".equals(e.getActionCommand())) {
                 if (src.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "O SENHOR SO PODE CANSELAR UM RESEVAR \n  CASO JA TEM REALIZADO UM RESEVA! ");
                 } else {
-                    trechosReserva.remove(listaReservas.getSelectedValue());
-                    src.removeElement(listaReservas.getSelectedValue());
-                    listaReservas.setModel(src);
-                    control.CancelarResevar();
-                    if (src.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "O SENHOR SO PODE REALIZAR UMA RESEVAR \n  APOS SELECINAR UM TRECHO! ");
-                    } else {
+                    try {
+                        rmi.cancelarTrecho(listaReservas.getSelectedValue());
+                        trechosReserva.remove(listaReservas.getSelectedValue());
+                        src.removeElement(listaReservas.getSelectedValue());
+                        listaReservas.setModel(src);
+                        control.CancelarResevar();
+                        trechosDisponiveis();
+                        if (src.isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "O SENHOR SO PODE REALIZAR UMA RESEVAR \n  APOS SELECINAR UM TRECHO! ");
+                        } else {
 //                      src.addElement(listaTrechos.getSelectedValue());
 //                     listaReservas.setModel(src);
 //                        exibir(1);
-                        control.Resevar();
+                            control.Resevar();
+                        }
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (UnknownHostException ex) {
+                        Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (JSONException ex) {
+                        Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
                 }
 
             }
@@ -398,10 +433,10 @@ public class UsuarioGui {
         public void trechosDisponiveis() throws UnknownHostException, RemoteException, JSONException {
             //   exibir(1);
             //control.atulizar();
-               
-              listaTrechos.removeAll();
+
+            listaTrechos.removeAll();
             List<Trecho> mT = new ArrayList<>();
-            
+
             JSONArray ja = new JSONArray(rmi.trechos());
             for (int i = 0; ja.length() > i; i++) {
                 JSONObject jo = (JSONObject) ja.get(i);
@@ -423,7 +458,7 @@ public class UsuarioGui {
                 mT.add(t);
             }
             for (int i = 0; mT.size() > i; i++) {
-                System.out.println(mT.get(i).getSemaforo());
+                // System.out.println(mT.get(i).getSemaforo());
                 dst.add(i, mT.get(i));
                 listaTrechos.setModel(dst);
             }

@@ -5,6 +5,8 @@
  */
 package br.uefs.ecomp.model;
 
+import java.util.List;
+
 /**
  *
  * @author cassio
@@ -13,6 +15,7 @@ public class Companhia {
     
     private String ip;
     private int id;
+    private List<Integer> passagens;
 
     public String getIp() {
         return ip;
@@ -28,6 +31,14 @@ public class Companhia {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public List<Integer> getPassagens() {
+        return passagens;
+    }
+
+    public void setPassagens(List<Integer> passagens) {
+        this.passagens = passagens;
     }
     
     
