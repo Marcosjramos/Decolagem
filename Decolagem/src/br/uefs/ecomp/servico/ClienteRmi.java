@@ -106,6 +106,40 @@ public class ClienteRmi {
         }
     }
 
+    public void cancelarTrecho(Trecho t) throws RemoteException {
+        Gson gson = new Gson();
+        for (int i = 0; companhias.size() > i; i++) {
+            switch (companhias.get(i).getId()) {
+                case 1:
+                    msi1.cancelarReservar(gson.toJson(t), gson.toJson(companhias.get(i)));
+                    break;
+                case 2:
+                    msi2.cancelarReservar(gson.toJson(t), gson.toJson(companhias.get(i)));
+                    break;
+                case 3:
+                    msi3.cancelarReservar(gson.toJson(t), gson.toJson(companhias.get(i)));
+                    break;
+            }
+        }
+    }
+
+    public void comprarTrecho(Trecho t) throws RemoteException {
+        Gson gson = new Gson();
+        for (int i = 0; companhias.size() > i; i++) {
+            switch (companhias.get(i).getId()) {
+                case 1:
+                    msi1.comprar(gson.toJson(t), gson.toJson(companhias.get(i)));
+                    break;
+                case 2:
+                    msi2.comprar(gson.toJson(t), gson.toJson(companhias.get(i)));
+                    break;
+                case 3:
+                    msi3.comprar(gson.toJson(t), gson.toJson(companhias.get(i)));
+                    break;
+            }
+        }
+    }
+
     public String testar() throws RemoteException {
         return msi1.testar();
     }

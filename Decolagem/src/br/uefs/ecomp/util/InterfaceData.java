@@ -22,5 +22,7 @@ public interface InterfaceData extends Remote {
     public String buscarTrecho (int id) throws RemoteException;
     public String testar() throws RemoteException;
     public void reservar(String t, String c) throws RemoteException;
+    public void cancelarReservar(String t, String c) throws RemoteException;
+     public void comprar(String t, String c) throws RemoteException;
     
 }
