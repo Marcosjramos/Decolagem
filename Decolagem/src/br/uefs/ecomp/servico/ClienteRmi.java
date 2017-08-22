@@ -44,7 +44,7 @@ public class ClienteRmi {
         c2.setIp("40.0.0.106");
         c2.setId(2);
         c3 = new Companhia();
-        c3.setIp("40.0.0.106");
+        c3.setIp("40.0.0.101");
         c3.setId(3);
         companhias.add(c1);
         companhias.add(c2);
@@ -159,4 +159,13 @@ public class ClienteRmi {
         //return  "HostName: " + host + " IP: " + endereco;
     }
 
+    public List<Companhia> getCompanhias() {
+        return companhias;
+    }
+
+    public void setCompanhias(List<Companhia> companhias) {
+        this.companhias = companhias;
+    }
+    
+    
 }

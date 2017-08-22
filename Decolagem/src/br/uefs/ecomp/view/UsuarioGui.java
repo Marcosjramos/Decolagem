@@ -6,6 +6,7 @@
 package br.uefs.ecomp.view;
 
 import br.uefs.ecomp.controller.Controller;
+import br.uefs.ecomp.model.Companhia;
 import br.uefs.ecomp.model.Espera;
 import br.uefs.ecomp.model.Trecho;
 import br.uefs.ecomp.model.Trechos;
@@ -59,9 +60,9 @@ public class UsuarioGui {
     public DefaultListModel dst = new DefaultListModel();
     public JTextField origem = new JTextField();
     public JTextField destino = new JTextField();
-    public JLabel origemtex = new JLabel("ORIGEM :");
-    public JLabel destinotex = new JLabel("DESTINO :");
-    public JLabel posicEsp = new JLabel("SUA POSIÇAO NA LISTA DE ESPERA");
+   // public JLabel origemtex = new JLabel("ORIGEM :");
+   // public JLabel destinotex = new JLabel("DESTINO :");
+    //public JLabel posicEsp = new JLabel("SUA POSIÇAO NA LISTA DE ESPERA");
     public JButton source = new JButton("OK");
     public JButton trecho = new JButton("TRECHOS DISPONIVEIS ");
     public JButton comprar = new JButton("COMPRAR PASSAGEM ");
@@ -116,8 +117,8 @@ public class UsuarioGui {
         panel.setLayout(null);
 
         mostrarTrechos();
-        origemDestino();
-        lista();
+//        origemDestino();
+//        lista();
 
     }
 
@@ -224,7 +225,7 @@ public class UsuarioGui {
 //>>>>>>> master*/
     }
 
-    private void lista() {
+    /*private void lista() {
 
         posicao.setHorizontalAlignment(SwingConstants.CENTER);
         posicao.setFont(new Font("Tahoma", Font.PLAIN, 40));
@@ -238,9 +239,9 @@ public class UsuarioGui {
         posicEsp.setBounds(260, 400, 360, 75);
         frame.getContentPane().add(posicEsp);
         panel.add(posicEsp);
-    }
+    }*/
 
-    private void origemDestino() {
+   /* private void origemDestino() {
         ButtonHandller btmH = new ButtonHandller();
 
         source.addActionListener(btmH);
@@ -253,7 +254,7 @@ public class UsuarioGui {
         origemtex.setBounds(-125, -15, 360, 75);
         frame.getContentPane().add(origemtex);
         panel.add(origemtex);
-
+        
         origem = new JTextField();
         origem.setBounds(90, 10, 89, 25);
         frame.getContentPane().add(origem);
@@ -272,7 +273,7 @@ public class UsuarioGui {
         destino.setColumns(10);
         panel.add(destino);
 
-    }
+    }*/
 
     public void exibir() {
 
@@ -319,10 +320,17 @@ public class UsuarioGui {
                 control.conectar();
 
             } else if ("ATUALIZAR".equals(e.getActionCommand())) {
-                control.atulizar();
-                if (mTrecho != null) {
-
+                try {
+                    //                control.atulizar();
+                    trechosDisponiveis();
+                } catch (UnknownHostException ex) {
+                    Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (JSONException ex) {
+                    Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
             } else if ("COMPRAR PASSAGEM ".equals(e.getActionCommand())) {
 
                 if (src.isEmpty()) {
@@ -333,9 +341,9 @@ public class UsuarioGui {
                         trechosReserva.remove(listaReservas.getSelectedValue());
                         src.removeElement(listaReservas.getSelectedValue());
                         listaReservas.setModel(src);
-                        control.CancelarResevar();
+//                        control.CancelarResevar();
                         trechosDisponiveis();
-                    control.RealizarComparar();
+                  //  control.RealizarComparar();
                     } catch (RemoteException ex) {
                         Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (UnknownHostException ex) {
@@ -364,7 +372,44 @@ public class UsuarioGui {
                             System.out.println("Segunda verificação");
                         }
                     } else {
-                        System.out.println(mTrecho.getSemaforo());
+                        //System.out.println(mTrecho.getSemaforo());
+                        List<Espera> mLista = mTrecho.getFila();
+                        Espera aux = null;
+                        for (Espera espera : mLista) {
+                            try {
+                                if(espera.getIp().equals(ClienteRmi.getIp())) {
+                                    aux = espera;
+                                }
+                            } catch (UnknownHostException ex) {
+                                Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (aux == null) {
+                            List<Companhia> companhias = rmi.getCompanhias();
+                            Companhia c = null;
+                            for (Companhia companhia : companhias) {
+                                try {
+                                    if(companhia.getIp().equals(ClienteRmi.getIp())){
+                                        c = companhia;
+                                        break;
+                                    }
+                                } catch (UnknownHostException ex) {
+                                    Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                            if(c != null) {
+                                aux = new Espera();
+                                aux.setIp(c.getIp());
+                                aux.setNum(mLista.size());
+                                mLista.add(aux);
+                                mTrecho.setFila(mLista);
+                                try {
+                                    rmi.comprarTrecho(mTrecho);
+                                } catch (RemoteException ex) {
+                                    Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        }
                     }
                 }
                 try {
