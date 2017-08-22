@@ -49,42 +49,46 @@ import org.json.JSONObject;
  */
 public class UsuarioGui {
 
-    public JFrame frame;
-    public int id;
-    public JPanel panel = new JPanel();
-    public javax.swing.JList<Trecho> listaReservas = new JList();
-    public javax.swing.JList<Trecho> listaTrechos = new JList();
-    public List<Trecho> trechosReserva = new ArrayList<>();
-    public DefaultListModel src = new DefaultListModel();
-    public DefaultListModel dst = new DefaultListModel();
-    public JTextField origem = new JTextField();
-    public JTextField destino = new JTextField();
-    public JLabel origemtex = new JLabel("ORIGEM :");
-    public JLabel destinotex = new JLabel("DESTINO :");
-    public JLabel posicEsp = new JLabel("SUA POSIÇAO NA LISTA DE ESPERA");
-    public JButton source = new JButton("OK");
-    public JButton trecho = new JButton("TRECHOS DISPONIVEIS ");
-    public JButton comprar = new JButton("COMPRAR PASSAGEM ");
-    public JButton resevar = new JButton("REALIZAR RESEVAR = >");
-    public JButton cancelar = new JButton("< = CANCELAR RESEVAR");
-    public JButton sair = new JButton("SAIR");
-    public JButton conecta = new JButton("CONECTAR");
-    public JButton atualizar = new JButton("ATUALIZAR");
-    public JLabel posicao = new JLabel(" ");
-    public Controller control;
-    public Trecho mTrecho;
-    ClienteRmi rmi;
+    public JFrame frame; /** A   variavél  frame correpode parapoder criara a tela onde  a aplicação vai funcionar. <br/> */
+    public int id; /**A  variavel id  e utilizar para algunas  determinada ações  do sistema. <br/> */
+    public JPanel panel = new JPanel();/** a variavel panel  que é usada para criar um  efeito  na tela. <br/>  */
+    public javax.swing.JList<Trecho> listaReservas = new JList(); /**A variavél listas de Reservas é utilizada para crira as area onde vai exibir  a resevas do usuarios.  <br/> */
+    public javax.swing.JList<Trecho> listaTrechos = new JList(); /**A variavél mostra  trechos é utilizada para crira as area onde vai exibir  os trechos e/ou passagens  disponiveis para os usuarios.  <br/> */
+    public List<Trecho> trechosReserva = new ArrayList<>();  /** a variavél trechosReserva é utilizada para correrponder as lista de resevas do ususario .  <br/> */
+    public DefaultListModel src = new DefaultListModel(); /** A  variavél src é usada para  poder captura a escolha do usuario . <br/> */
+    public DefaultListModel dst = new DefaultListModel();/** A  variavél src é usada para  poder captura a escolha do usuario . <br/> */
+    public JTextField origem = new JTextField();/** A  variavél origem  é usada para  o que o usuario  indicou   com origem. <br/> */
+    public JTextField destino = new JTextField();/** A  variavél destino  é usada para  o que o usuario  indicou   com destino . <br/> */
+    public JLabel origemtex = new JLabel("ORIGEM :");/** A  variavél origemtex é usada para  infroma onde usuarao tem que indica com origem no sistema  . <br/> */
+    public JLabel destinotex = new JLabel("DESTINO :");/** A  variavél destinotex é usada para  infroma onde usuarao tem que indica com destino no sistema  . <br/> */
+    public JLabel posicEsp = new JLabel("SUA POSIÇAO NA LISTA DE ESPERA"); /**  variavél posicEsp é  usada para poder set na tela  uma mensagem para usuario. <br/>*/
+    public JButton source = new JButton("OK"); /** variavel source  para  ser o botão origem  na tela  <br/>*/
+    public JButton trecho = new JButton("TRECHOS DISPONIVEIS ");/** variavel trecho  para  ser o botão mostra trechos  disponivéis na tela .  <br/>*/
+    public JButton comprar = new JButton("COMPRAR PASSAGEM ");/** variavel comprar  para  ser o botão realizar  a compra  do usuario na tela.   <br/>*/
+    public JButton resevar = new JButton("REALIZAR RESEVAR = >");/** variavel resevar  para  ser o botão realizar a reseva   do usuario na tela . <br/>*/
+    public JButton cancelar = new JButton("< = CANCELAR RESEVAR");/** variavel cancelar  para  ser o botão realizar o cancelamento da  reseva   do usuario na tela.   <br/>*/
+    public JButton sair = new JButton("SAIR");/** variavel  sair   para o  botão para sair do sistema.  <br/>*/
+    public JButton conecta = new JButton("CONECTAR");/** variavel  conecta  para o  botão para conecta na rede do sistema.  <br/>*/
+    public JButton atualizar = new JButton("ATUALIZAR");/** variavel  atualizar  para o  botão para atualizar na rede do sistema.  <br/>*/
+    public JLabel posicao = new JLabel(" ");/** variavel  posicao  que vai seta na tela  a posição na tela do sistema.  <br/>*/
+    public Controller control;/** variavel control para   acessa e se comunica com o controller  da aplicação.  <br/>*/
+    public Trecho mTrecho;/** variavel mtrecho  para  exibri os  osbjetos trechos para usuario .  <br/>*/
+    ClienteRmi rmi;/** variavel rmi para poder  usar a comunicação rmi do no sistema. <br/>*/
 
+    
+    /** A seguir  o construtor  da classe  da  interface para start  as configurações do sistema.<br/>   */
     public UsuarioGui() {
         Incializar();
         rmi = new ClienteRmi();
     }
-
+    
+    /**A seguir s função  que seta as configuraçãoes da interface  .<br/>*/
     private void Incializar() {
         /**
          * a seguir o if que vai set icones e cores na interface do sistema.
          * <br/>
          */
+         /**  A segui  especifuca e seta  a configurações gerais da interface. <br/>*/
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -102,27 +106,30 @@ public class UsuarioGui {
             java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        frame = new JFrame();
-        frame.setBounds(100, 40, 1050, 720);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame = new JFrame();/**criar   tela do sistema.  <br/>*/
+        frame.setBounds(100, 40, 1050, 720);/**  seta as dimenções da tela. <br/>*/
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);/** criara açaõ de fechar. <br/>*/
         frame.getContentPane().setLayout(null);
-        frame.setTitle("DECOLAGEM");
+        frame.setTitle("DECOLAGEM");/**  seta o nome da tela.  <br/>*/
 
-        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.setBounds(30, 30, 990, 640);
-        frame.getContentPane().add(tabbedPane);
+        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);/**  criar o panel da tela. <br/>*/
+        tabbedPane.setBounds(30, 30, 990, 640);/**  seta as dimenções do panel . <br/>*/
+        frame.getContentPane().add(tabbedPane);/**  seta o panel na tela principal. <br/>*/
 
-        tabbedPane.addTab(" BEM VINDO!  ", null, panel, null);
+        tabbedPane.addTab(" BEM VINDO!  ", null, panel, null);/**  seta o nome  do panel. <br/>*/
         panel.setLayout(null);
 
-        mostrarTrechos();
-        origemDestino();
-        lista();
+        
+        mostrarTrechos();/**  chama a função  que mostra os trechos. <br/>*/
+        origemDestino();/**  chama a função  que mostra os destinos . <br/>*/
+        lista(); /**  chama a função  que mostra as listas . <br/>*/
 
     }
 
     private void mostrarTrechos() {
 //<<<<<<< HEAD
+         /** Dentro da função  mostrarTrechos  , vai seta  os parametros de configuraçãoes  das jlista  que vai mostra  os trechos,  resevas   <br/>
+          * , criar a ação  que vai tratar o evento dos botões  principal   que vai ser exibida para o usuario . <br/>*/
         ButtonHandller btmH = new ButtonHandller();
         listaTrechos.setBounds(30, 75, 300, 450);
 
@@ -225,7 +232,7 @@ public class UsuarioGui {
     }
 
     private void lista() {
-
+         /** A  função lista  vai  set  as configurações de exibição  de para o posicionamento  na tela da posição na lista de espera.  <br/>*/
         posicao.setHorizontalAlignment(SwingConstants.CENTER);
         posicao.setFont(new Font("Tahoma", Font.PLAIN, 40));
         posicao.setBounds(290, 440, 360, 75);
@@ -241,6 +248,8 @@ public class UsuarioGui {
     }
 
     private void origemDestino() {
+        
+        /**  A função  origemDestino  , vai seta as  configurações de  botões  que  vai trada busca , quando usuario  infroma  a origem e o destino para  busca na tela.  <br/>*/
         ButtonHandller btmH = new ButtonHandller();
 
         source.addActionListener(btmH);
@@ -275,11 +284,12 @@ public class UsuarioGui {
     }
 
     public void exibir() {
-
+     /** A função  exibir para  exibir os destinos posivéis.   <br/>*/
         listaTrechos.setModel(dst);
     }
 
     public void exibir(int op) {
+         /** A função  exibir para  exibir os destinos posivéis.   <br/>*/
         if (op == 1) {
             src.addElement(listaTrechos.getName());
             //src.addElement(listaTrechos.getSelectedValue());
@@ -291,7 +301,8 @@ public class UsuarioGui {
     }
 
     private class ButtonHandller implements ActionListener {
-
+        
+ /** A função  ButtonHandller trata  do eventos   para  qual botão  o usuario clicou e assim executar   o que o usuario solicitou. <br/>*/
         @Override
         public void actionPerformed(ActionEvent e) {
             if ("OK".equals(e.getActionCommand())) {
@@ -396,7 +407,8 @@ public class UsuarioGui {
         }
 
         public void trechosDisponiveis() throws UnknownHostException, RemoteException, JSONException {
-            //   exibir(1);
+           /** A função trechosDisponiveis pegando os dados  do sevidores das empreseas  .<br/>*/
+             //   exibir(1);
             //control.atulizar();
                
               listaTrechos.removeAll();
@@ -431,6 +443,7 @@ public class UsuarioGui {
     }
 
     public Trecho buscartrecho(Trecho t) {
+          /** a função  buscartrecho busca os trechos que o sistema  tem para comercializar . <br/> */
         List<Trecho> trechos = Trechos.retornarListaTrechos();
         for (int i = 0; trechos.size() > i; i++) {
             if (t.getId() == trechos.get(i).getId()) {
@@ -441,6 +454,7 @@ public class UsuarioGui {
     }
 
     public void reservar(Trecho t) {
+          /** a função  resevar  faz as resevar  que o usuario  pretende fazer . <br/> */
         List<Trecho> trechos = Trechos.retornarListaTrechos();
         Trecho t2 = null;
         for (int i = 0; trechos.size() > i; i++) {
@@ -491,6 +505,7 @@ public class UsuarioGui {
     }
 
     public boolean verificarReserva(Trecho mt) {
+        /** a função  verificarReserva verifica   a reseva do usuario. <br/> */
         List<Trecho> lista = trechosReserva;
         if (lista != null && !lista.isEmpty()) {
             for (Trecho t : lista) {

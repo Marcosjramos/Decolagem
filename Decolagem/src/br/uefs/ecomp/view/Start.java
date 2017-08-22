@@ -17,7 +17,8 @@ import java.rmi.registry.LocateRegistry;
  * @author marcos
  */
 public class Start {
-
+      
+    /** A  seguir as instruções    que  stat o  sistema   e  seta os paramentros   para o funcionamento  do RMI .<br>*/
     public static void main(String[] args) throws SocketException {
 
         EventQueue.invokeLater(new Runnable() {
