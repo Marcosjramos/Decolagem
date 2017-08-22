@@ -15,6 +15,7 @@ import java.util.List;
  * @author cassio
  */
 public interface InterfaceData extends Remote {
-    public List<Trecho> buscarTrecho (String t1, String t2) throws RemoteException;
+    public String buscarTrecho (int id) throws RemoteException;
+    public String testar() throws RemoteException;
     
 }

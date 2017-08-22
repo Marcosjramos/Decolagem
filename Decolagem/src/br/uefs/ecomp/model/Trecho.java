@@ -5,6 +5,9 @@
  */
 package br.uefs.ecomp.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author marcos
@@ -15,12 +18,18 @@ public class Trecho {
     private String cidadedestino;
     private int  companhia;
     private int quantAssentos;
+    private int semaforo;
+    private int id;
+    private List<Espera> fila;
 
-    public Trecho(String cidadeorigem, String cidadedestino, int  companhia, int quantAssentos) {
+    public Trecho(String cidadeorigem, String cidadedestino, int  companhia, int quantAssentos, int id) {
         this.cidadeorigem = cidadeorigem;
         this.cidadedestino = cidadedestino;
         this.companhia = companhia;
         this.quantAssentos = quantAssentos;
+        this.fila = new ArrayList<>();
+        this.semaforo = 0;
+        this.id = id;
     }
 
     public String getCidadeorigem() {
@@ -54,7 +63,35 @@ public class Trecho {
     public void setQuantAssentos(int quantAssentos) {
         this.quantAssentos = quantAssentos;
     }
-    
+
+    public List<Espera> getFila() {
+        return fila;
+    }
+
+    public void setFila(List<Espera> fila) {
+        this.fila = fila;
+    }
+
+    public int getSemaforo() {
+        return semaforo;
+    }
+
+    public void setSemaforo(int semaforo) {
+        this.semaforo = semaforo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return  cidadeorigem +" --> "+ cidadedestino + " | assentos: " + quantAssentos ;
+    }
     
     
 }
