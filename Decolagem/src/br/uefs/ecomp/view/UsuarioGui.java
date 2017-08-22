@@ -306,50 +306,7 @@ public class UsuarioGui {
                 frame.dispose();
             } else if ("TRECHOS DISPONIVEIS ".equals(e.getActionCommand())) {
                 try {
-                    //   exibir(1);
-                    //control.atulizar();
-                    List<Trecho> mT = new ArrayList<>();
-                    JSONArray ja = new JSONArray(rmi.trechos2());
-                    for (int i = 0; ja.length() > i; i++) {
-                        //System.out.println(ja.get(i));
-                        JSONObject jo = (JSONObject) ja.get(i);
-                        Trecho t = new Trecho(jo.getString("cidadedestino"), jo.getString("cidadeorigem"), jo.getInt("id"), jo.getInt("quantAssentos"), jo.getInt("id"));
-                        //(String cidadeorigem, String cidadedestino, int  companhia, int quantAssentos, int id) {
-                        // t.setCidadedestino(jo.getString("cidadedestino"));
-                        //t.setCidadeorigem(jo.getString("cidadeorigem"));
-                        JSONArray filaEspera = jo.getJSONArray("fila");
-                        if (filaEspera != null && filaEspera.length() > 0) {
-                            System.out.println(filaEspera.toString());
-                            for (int j = 0; filaEspera.length() < j; j++) {
-                                JSONObject mJo = (JSONObject) filaEspera.get(j);
-                                Espera espera = new Espera();
-                                espera.setIp(mJo.getString("ip"));
-                                espera.setNum(mJo.getInt("num"));
-                                List<Espera> mEsperas = new ArrayList<>();
-                                mEsperas.add(espera);
-                                t.setFila(mEsperas);
-                            }
-                        }
-                        //((List<Espera>) jo.getJSONArray("fila"));
-                        // t.setId(jo.getInt("id"));
-                        //t.setQuantAssentos(jo.getInt("quantAssentos"));
-                        //t.setCompanhia(jo.getInt("id"));
-                        t.setSemaforo(jo.getInt("semaforo"));
-                        mT.add(t);
-                        //{"cidadedestino":"Vitória","cidadeorigem":"Manaus","fila":[],"quantAssentos":2,"id":21,"companhia":1,"semaforo":0}
-                    }
-                    //System.out.println(rmi.testar());
-                    // List<Trecho> mT = gson.fromJson(rmi.trechos(),  List<Trecho>());
-                    for (int i = 0; mT.size() > i; i++) {
-                        // System.out.println(Trechos.retornarListaTrechos().get(i));
-                        // src.add(i, e);
-                        dst.add(i, mT.get(i));
-                        //listaReservas.setModel(dst);
-                        listaTrechos.setModel(dst);
-
-                        //listaTrechos.add(new JScrollPane(dst));
-                    }
-                    //exibir();
+                    trechosDisponiveis();
                 } catch (RemoteException ex) {
                     Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (JSONException ex) {
@@ -375,13 +332,24 @@ public class UsuarioGui {
                 }
 
             } else if ("REALIZAR RESEVAR = >".equals(e.getActionCommand())) {
-
+               
                 if (mTrecho != null) {
+                    if(mTrecho.getSemaforo() == 0) {
                     if (!verificarReserva(mTrecho)) {
+                        try {
+                            rmi.reservarTrecho(mTrecho);
+                        } catch (RemoteException ex) {
+                            Logger.getLogger(UsuarioGui.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         // listaReservas.add(mTrecho);
                         src.addElement(mTrecho);
                         listaReservas.setModel(src);
                         trechosReserva.add(mTrecho);
+                    } else {
+                        System.out.println("Segunda verificação");
+                    }
+                    } else {
+                        System.out.println(mTrecho.getSemaforo());
                     }
                 }
 
@@ -425,6 +393,40 @@ public class UsuarioGui {
                 }
             });
 
+        }
+
+        public void trechosDisponiveis() throws UnknownHostException, RemoteException, JSONException {
+            //   exibir(1);
+            //control.atulizar();
+               
+              listaTrechos.removeAll();
+            List<Trecho> mT = new ArrayList<>();
+            
+            JSONArray ja = new JSONArray(rmi.trechos());
+            for (int i = 0; ja.length() > i; i++) {
+                JSONObject jo = (JSONObject) ja.get(i);
+                Trecho t = new Trecho(jo.getString("cidadedestino"), jo.getString("cidadeorigem"), jo.getInt("id"), jo.getInt("quantAssentos"), jo.getInt("id"));
+                JSONArray filaEspera = jo.getJSONArray("fila");
+                if (filaEspera != null && filaEspera.length() > 0) {
+                    System.out.println(filaEspera.toString());
+                    for (int j = 0; filaEspera.length() < j; j++) {
+                        JSONObject mJo = (JSONObject) filaEspera.get(j);
+                        Espera espera = new Espera();
+                        espera.setIp(mJo.getString("ip"));
+                        espera.setNum(mJo.getInt("num"));
+                        List<Espera> mEsperas = new ArrayList<>();
+                        mEsperas.add(espera);
+                        t.setFila(mEsperas);
+                    }
+                }
+                t.setSemaforo(jo.getInt("semaforo"));
+                mT.add(t);
+            }
+            for (int i = 0; mT.size() > i; i++) {
+                System.out.println(mT.get(i).getSemaforo());
+                dst.add(i, mT.get(i));
+                listaTrechos.setModel(dst);
+            }
         }
     }
 

@@ -64,31 +64,60 @@ public enum Trechos {
         this.id = id;
     }
 
-    private static final Trechos[] trechos = values();
-
+    private static Trechos[] trechos = values();
+    private static List<Trecho> mTrechos;
+    
     public static List<Trecho> retornarListaTrechos(int companhia) {
         Trecho trecho;
         List<Trecho> lista = new ArrayList<>();
-        for (Trechos trechos : trechos) {
+        if (mTrechos == null) {
+             for (Trechos trechos : trechos) {
             if (trechos.getCompanhia() == companhia) {
-            trecho = new Trecho(trechos.getOrigem(), trechos.getDestino(), trechos.getCompanhia(),
-                    trechos.getQuantAssentos(), trechos.getId());
-            lista.add(trecho);
+                trecho = new Trecho(trechos.getOrigem(), trechos.getDestino(), trechos.getCompanhia(),
+                        trechos.getQuantAssentos(), trechos.getId());
+                lista.add(trecho);
             }
         }
-        return lista;
+             mTrechos = lista;
+        }
+       
+        
+        return mTrechos;
     }
-    
-     public static List<Trecho> retornarListaTrechos() {
+
+    public static void atualizarListaTrecho(Trecho t) {
+        Trecho mTrecho = null;
+        int j = -1;
+        for (int i = 0; trechos.length > i; i++) {
+            if (trechos[i].getId() == t.getId()) {
+                mTrecho = t;
+                j = i;
+                break;
+            }
+
+        }
+        if (mTrecho != null) {
+            mTrechos.remove(mTrecho);
+            mTrechos.add(mTrecho);
+           //trechos[j] = mTrecho;
+            System.out.println("Atualizou");
+        }
+
+    }
+
+    public static List<Trecho> retornarListaTrechos() {
         Trecho trecho;
         List<Trecho> lista = new ArrayList<>();
         for (Trechos trechos : trechos) {
             trecho = new Trecho(trechos.getOrigem(), trechos.getDestino(), trechos.getCompanhia(),
                     trechos.getQuantAssentos(), trechos.getId());
             lista.add(trecho);
-            
+
         }
-        return lista;
+        if (mTrechos == null) {
+            mTrechos = lista;
+        }
+        return mTrechos;
     }
 
     public String getOrigem() {
@@ -125,5 +154,4 @@ public enum Trechos {
         }
         return lista;
     }*/
-
 }
