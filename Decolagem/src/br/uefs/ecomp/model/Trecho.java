@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ *Classe modelo
  * @author marcos
  */
-public class Trecho {
+public class Trecho implements Comparable<Trecho> {
     
     private String cidadeorigem;
     private String cidadedestino;
@@ -92,6 +92,20 @@ public class Trecho {
     public String toString() {
         return  cidadeorigem +" --> "+ cidadedestino + " | assentos: " + quantAssentos ;
     }
+
+    @Override
+    public int compareTo(Trecho t) {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       if (this.semaforo < t.semaforo) {
+            return 1;
+        }
+        if (this.semaforo > t.semaforo  ) {
+            return -1;
+        }
+        return 0;
+    }
+    
+    
     
     
 }

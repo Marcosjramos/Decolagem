@@ -6,13 +6,14 @@
 package br.uefs.ecomp.model;
 
 import br.uefs.ecomp.util.InterfaceData;
+import br.uefs.ecomp.view.Start;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- *
+ * 
  * @author marcos
  */
 public enum Trechos {
@@ -66,55 +67,64 @@ public enum Trechos {
 
     private static Trechos[] trechos = values();
     private static List<Trecho> mTrechos;
-    
+    /**
+     * Método responsavel por listar os trechos por companhia
+     * @param companhia id
+     * @return Lista de trechos
+     */
     public static List<Trecho> retornarListaTrechos(int companhia) {
         Trecho trecho;
         List<Trecho> lista = new ArrayList<>();
         if (mTrechos == null) {
-             for (Trechos trechos : trechos) {
-            if (trechos.getCompanhia() == companhia) {
+            for (Trechos trechos : trechos) {
+                if (trechos.getCompanhia() == companhia) {
+                    trecho = new Trecho(trechos.getOrigem(), trechos.getDestino(), trechos.getCompanhia(),
+                            trechos.getQuantAssentos(), trechos.getId());
+                    lista.add(trecho);
+                }
+            }
+            mTrechos = lista;
+        }
+
+        return mTrechos;
+    }
+    
+    /**
+     * Método responsavel por atualizar um trecho na lista
+     * @param t Trecho
+     */
+    public static void atualizarListaTrecho(Trecho t) {
+        Trecho mTrecho = null;
+        int j = -1;
+        for (int i = 0; Start.trechos.size() > i; i++) {
+            if (Start.trechos.get(i).getId() == t.getId()) {
+                mTrecho = Start.trechos.get(i);
+                j = i;
+                break;
+            }
+        }
+        if (mTrecho != null) {
+            Start.trechos.remove(mTrecho);
+            Start.trechos.add(t);
+            //trechos[j] = mTrecho;
+          //  System.out.println("Atualizou");
+        }
+
+    }
+    
+    /**
+     * Método responsavel por buscar todos os trechos
+     * @return Lista de trechos
+     */
+    public static List<Trecho> retornarListaTrechos2() {
+        Trecho trecho;
+        List<Trecho> lista = new ArrayList<>();
+        if (mTrechos == null) {
+            for (Trechos trechos : trechos) {
                 trecho = new Trecho(trechos.getOrigem(), trechos.getDestino(), trechos.getCompanhia(),
                         trechos.getQuantAssentos(), trechos.getId());
                 lista.add(trecho);
             }
-        }
-             mTrechos = lista;
-        }
-       
-        
-        return mTrechos;
-    }
-
-    public static void atualizarListaTrecho(Trecho t) {
-        Trecho mTrecho = null;
-        int j = -1;
-        for (int i = 0; trechos.length > i; i++) {
-            if (trechos[i].getId() == t.getId()) {
-                mTrecho = t;
-                j = i;
-                break;
-            }
-
-        }
-        if (mTrecho != null) {
-            mTrechos.remove(mTrecho);
-            mTrechos.add(mTrecho);
-           //trechos[j] = mTrecho;
-            System.out.println("Atualizou");
-        }
-
-    }
-
-    public static List<Trecho> retornarListaTrechos() {
-        Trecho trecho;
-        List<Trecho> lista = new ArrayList<>();
-        for (Trechos trechos : trechos) {
-            trecho = new Trecho(trechos.getOrigem(), trechos.getDestino(), trechos.getCompanhia(),
-                    trechos.getQuantAssentos(), trechos.getId());
-            lista.add(trecho);
-
-        }
-        if (mTrechos == null) {
             mTrechos = lista;
         }
         return mTrechos;
@@ -139,19 +149,4 @@ public enum Trechos {
     public int getId() {
         return id;
     }
-
-    /*@Override
-    public List<Trecho> buscarTrecho(int id) throws RemoteException {
-        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        Trecho trecho;
-        List<Trecho> lista = new ArrayList<>();
-        for (Trechos trechos : trechos) {
-            if (trechos.companhia != id) {
-                trecho = new Trecho(trechos.getOrigem(), trechos.getDestino(), trechos.getCompanhia(),
-                        trechos.getQuantAssentos(), trechos.getId());
-                lista.add(trecho);
-            }
-        }
-        return lista;
-    }*/
 }

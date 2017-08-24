@@ -17,9 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
+import sun.awt.windows.ThemeReader;
 
 /**
- *
+ * Classe de comunicação com servidores remotos
  * @author cassio
  */
 public class ClienteRmi {
@@ -38,13 +39,16 @@ public class ClienteRmi {
         System.out.println("Arrancando cliente...");
         companhias = new ArrayList<>();
         c1 = new Companhia();
-        c1.setIp("40.0.0.106");
+       c1.setIp("40.0.0.106");
+     // c1.setIp("172.16.103.106");
         c1.setId(1);
         c2 = new Companhia();
         c2.setIp("40.0.0.106");
+      //  c2.setIp("172.16.103.107");
         c2.setId(2);
         c3 = new Companhia();
-        c3.setIp("40.0.0.101");
+       c3.setIp("40.0.0.106");
+       //c3.setIp("172.16.103.108");
         c3.setId(3);
         companhias.add(c1);
         companhias.add(c2);
@@ -61,6 +65,13 @@ public class ClienteRmi {
         }
     }
 
+    /**
+     * Método responsavel por buscar os treceos em servidores remotos
+     * @return JSONArray toString
+     * @throws RemoteException
+     * @throws UnknownHostException
+     * @throws JSONException 
+     */
     public String trechos() throws RemoteException, UnknownHostException, JSONException {
         JSONArray trechos22 = new JSONArray();
 
@@ -89,12 +100,19 @@ public class ClienteRmi {
         return trechos22.toString();
     }
 
+    /**
+     * Método responsavel por reservar um trecho no servidor remoto
+     * @param t Trecho 
+     * @throws RemoteException 
+     */
     public void reservarTrecho(Trecho t) throws RemoteException {
         Gson gson = new Gson();
+       
         for (int i = 0; companhias.size() > i; i++) {
+             //System.out.println(companhias.get(i).getId());
             switch (companhias.get(i).getId()) {
                 case 1:
-                    msi1.reservar(gson.toJson(t), gson.toJson(companhias.get(i)));
+                   msi1.reservar(gson.toJson(t), gson.toJson(companhias.get(i)));
                     break;
                 case 2:
                     msi2.reservar(gson.toJson(t), gson.toJson(companhias.get(i)));
@@ -104,8 +122,14 @@ public class ClienteRmi {
                     break;
             }
         }
+        
     }
 
+    /**
+     * Método responsavel por buscar e retirar um trecho da lista de espera 
+     * @param t Trecho
+     * @throws RemoteException 
+     */
     public void cancelarTrecho(Trecho t) throws RemoteException {
         Gson gson = new Gson();
         for (int i = 0; companhias.size() > i; i++) {
@@ -122,7 +146,12 @@ public class ClienteRmi {
             }
         }
     }
-
+    
+    /**
+     * Método responsavel por salvar os trechos comprados
+     * @param t Trecho
+     * @throws RemoteException 
+     */
     public void comprarTrecho(Trecho t) throws RemoteException {
         Gson gson = new Gson();
         for (int i = 0; companhias.size() > i; i++) {
@@ -144,6 +173,11 @@ public class ClienteRmi {
         return msi1.testar();
     }
 
+    /**
+     * Método responsavel por retornar o ip da maquina local
+     * @return String ip
+     * @throws UnknownHostException 
+     */
     public static String getIp() throws UnknownHostException {
         String host = "";
         String endereco = "";
