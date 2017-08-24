@@ -52,32 +52,6 @@ import org.json.JSONObject;
  */
 public class UsuarioGui {
 
-//    public JFrame frame;
-//    public int id;
-//    public JPanel panel = new JPanel();
-//    public javax.swing.JList<Trecho> listaReservas = new JList();
-//    public javax.swing.JList<Trecho> listaTrechos = new JList();
-//    public List<Trecho> trechosReserva = new ArrayList<>();
-//    public DefaultListModel src = new DefaultListModel();
-//    public DefaultListModel dst = new DefaultListModel();
-//    public JTextField origem = new JTextField();
-//    public JTextField destino = new JTextField();
-//    // public JLabel origemtex = new JLabel("ORIGEM :");
-//    // public JLabel destinotex = new JLabel("DESTINO :");
-//    //public JLabel posicEsp = new JLabel("SUA POSIÇAO NA LISTA DE ESPERA");
-//    public JButton source = new JButton("OK");
-//    public JButton trecho = new JButton("TRECHOS DISPONIVEIS ");
-//    public JButton comprar = new JButton("COMPRAR PASSAGEM ");
-//    public JButton resevar = new JButton("REALIZAR RESEVAR = >");
-//    public JButton cancelar = new JButton("< = CANCELAR RESEVAR");
-//    public JButton sair = new JButton("SAIR");
-//    public JButton conecta = new JButton("CONECTAR");
-//    public JButton atualizar = new JButton("ATUALIZAR");
-//    public JLabel posicao = new JLabel(" ");
-//    public Controller control;
-//    public Trecho mTrecho;
-//    ClienteRmi rmi;
-
     public JFrame frame; /** A   variavél  frame correpode parapoder criara a tela onde  a aplicação vai funcionar. <br/> */
     public int id; /**A  variavel id  e utilizar para algunas  determinada ações  do sistema. <br/> */
     public JPanel panel = new JPanel();/** a variavel panel  que é usada para criar um  efeito  na tela. <br/>  */
@@ -148,10 +122,10 @@ public class UsuarioGui {
         tabbedPane.addTab(" BEM VINDO!  ", null, panel, null);/**  seta o nome  do panel. <br/>*/
         panel.setLayout(null);
 
-
-        mostrarTrechos();
-//        origemDestino();
-//        lista();
+        
+        mostrarTrechos();/**  chama a função  que mostra os trechos. <br/>*/
+        origemDestino();/**  chama a função  que mostra os destinos . <br/>*/
+        lista(); /**  chama a função  que mostra as listas . <br/>*/
 
         
         mostrarTrechos();/**  chama a função  que mostra os trechos. <br/>*/
@@ -271,7 +245,6 @@ public class UsuarioGui {
 =======
     private void lista() {
          /** A  função lista  vai  set  as configurações de exibição  de para o posicionamento  na tela da posição na lista de espera.  <br/>*/
-/*
         posicao.setHorizontalAlignment(SwingConstants.CENTER);
         posicao.setFont(new Font("Tahoma", Font.PLAIN, 40));
         posicao.setBounds(290, 440, 360, 75);
@@ -292,7 +265,6 @@ public class UsuarioGui {
     private void origemDestino() {
         
         /**  A função  origemDestino  , vai seta as  configurações de  botões  que  vai trada busca , quando usuario  infroma  a origem e o destino para  busca na tela.  <br/>*/
-/*
         ButtonHandller btmH = new ButtonHandller();
 
         source.addActionListener(btmH);
@@ -343,10 +315,8 @@ public class UsuarioGui {
     }
 
     private class ButtonHandller implements ActionListener {
-
         
  /** A função  ButtonHandller trata  do eventos   para  qual botão  o usuario clicou e assim executar   o que o usuario solicitou. <br/>*/
-
         @Override
         public void actionPerformed(ActionEvent e) {
             if ("OK".equals(e.getActionCommand())) {
@@ -530,10 +500,8 @@ public class UsuarioGui {
     }
 
     public Trecho buscartrecho(Trecho t) {
-        List<Trecho> trechos = Start.trechos;
-      
           /** a função  buscartrecho busca os trechos que o sistema  tem para comercializar . <br/> */
-       
+        List<Trecho> trechos = Trechos.retornarListaTrechos();
         for (int i = 0; trechos.size() > i; i++) {
             if (t.getId() == trechos.get(i).getId()) {
                 return trechos.get(i);
@@ -545,7 +513,7 @@ public class UsuarioGui {
         
     public void reservar(Trecho t) {
           /** a função  resevar  faz as resevar  que o usuario  pretende fazer . <br/> */
-          List<Trecho> trechos = Start.trechos;
+        List<Trecho> trechos = Trechos.retornarListaTrechos();
         Trecho t2 = null;
         for (int i = 0; trechos.size() > i; i++) {
             if (t.getId() == trechos.get(i).getId()) {
